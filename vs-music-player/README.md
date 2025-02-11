@@ -5,7 +5,7 @@ A VS Code extension that allows you to play your favorite songs directly within 
 ## Features
 
 - **Play Songs Directly in VS Code**  
-  Select a song from a list of songs provided by the ###vs-songs-server (fetched from a backend server) and play it without leaving VS Code.
+  Select a song from a list of songs provided by the **vs-songs-server** (fetched from a backend server) and play it without leaving VS Code.
 
 - **Playback Controls**
 
@@ -24,6 +24,11 @@ A VS Code extension that allows you to play your favorite songs directly within 
 
 - **Responsive Webview UI**  
   The extension opens a dedicated webview panel that features a modern UI with a song list, playback controls, and toggle buttons.
+
+  **_Please co-operate with the performance issues since this is a complete free version_**
+
+-- **The songs get updated frequently and new songs are added regularly**
+**_Any song suggestions can be given at [here](), either about theme of songs, or artists to be included, anything or you can ping me directly at my dm in [Linkedin](https://www.linkedin.com/in/medam-kowsik-975479282/) _**
 
 ## How It Works
 
