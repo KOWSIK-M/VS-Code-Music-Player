@@ -1,0 +1,55 @@
+{
+  "name": "vs-music-player",
+  "displayName": "vs-music-player",
+  "description": "The vs music player is an extension that allows coders to enjoy music directly in the VS Code instead of using another app",
+  "version": "0.0.1",
+  "publisher": "MedamKowsik",
+  "icon": "icon/vs-music-player-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KOWSIK-M/VS-Code-Music-Player"
+  },
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "keywords": [
+    "vs-code",
+    "music",
+    "songs",
+    "music player",
+    "kowsik",
+    "medam kowsik",
+    "auido",
+    "extension",
+    "music extension",
+    "vs-music-player",
+    "Vs music player"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vs-music-player.openMusicSelector",
+        "title": "Open Music Player"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.97.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "eslint": "^9.19.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  },
+  "license": "MIT"
+}
