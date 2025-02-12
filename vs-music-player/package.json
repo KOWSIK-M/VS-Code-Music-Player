@@ -2,7 +2,7 @@
   "name": "vs-music-player",
   "displayName": "vs-music-player",
   "description": "The vs music player is an extension that allows coders to enjoy music directly in the VS Code instead of using another app",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "publisher": "MedamKowsik",
   "icon": "icon/vs-music-player-icon.png",
   "repository": {

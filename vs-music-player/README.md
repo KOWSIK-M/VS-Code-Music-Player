@@ -28,7 +28,7 @@ A VS Code extension that allows you to play your favorite songs directly within 
   **_Please co-operate with the performance issues since this is a complete free version_**
 
 -- **The songs get updated frequently and new songs are added regularly**
-**_Any song suggestions can be given at [here](), either about theme of songs, or artists to be included, anything or you can ping me directly at my dm in [Linkedin](https://www.linkedin.com/in/medam-kowsik-975479282/) _**
+**_Any song suggestions can be given at [here](https://www.linkedin.com/posts/medam-kowsik-975479282_vscode-musicplayer-codingmusic-activity-7295497230860369921-802b?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETEySkB47xfrFfYzMWVLNuNJCQSbve1COA), either about theme of songs, or artists to be included, anything or you can ping me directly at my dm in [Linkedin](https://www.linkedin.com/in/medam-kowsik-975479282/) _**
 
 ## How It Works
 
@@ -90,7 +90,7 @@ A VS Code extension that allows you to play your favorite songs directly within 
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/vscode-music-player.git
+   git clone https://github.com/KOWSIK-M/vscode-music-player.git
    cd vscode-music-player
    ```
 
