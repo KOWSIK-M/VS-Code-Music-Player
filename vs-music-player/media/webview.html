@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>VS Code Music Player</title>
+    <link rel="stylesheet" href="{{styleUri}}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+
+<body>
+    <div class="whole-container">
+        <div class="scroll-container">
+            <ol id="song-list">
+                {{songList}}
+            </ol>
+        </div>
+
+        <div class="card">
+            <div class="card__title" id="song-name">{{currentSong}}</div>
+            <div class="card__wrapper">
+                <div class="card__time card__time-passed" id="progress-text">0:00</div>
+                <div class="card__timeline"><progress id="progress-bar" value="0" max="100"></progress></div>
+                <div class="card__time card__time-left"><span id="duration-text">0:00</span></div>
+            </div>
+            <div class="card__wrapper">
+                <button class="card__btn loop_btn" id="loopToggle"><svg fill="none" height="12" viewBox="0 0 20 12"
+                        width="20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <clipPath id="a">
+                            <path d="m0 0h20v12h-20z"></path>
+                        </clipPath>
+                        <g>
+                            <path
+                                d="m17 1c0-.265216-.1054-.51957-.2929-.707107-.1875-.187536-.4419-.292893-.7071-.292893h-8v2h7v5h-3l3.969 5 4.031-5h-3zm-14 10c0 .2652.10536.5196.29289.7071.18754.1875.44189.2929.70711.2929h8v-2h-7v-5h3l-4-5-4 5h3z"
+                                fill="#fff"></path>
+                        </g>
+                    </svg></button>
+                <button class="card__btn" id="prev"><svg width="23" height="16" viewBox="0 0 23 16" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.5 8V0L0 8L11.5 16V8ZM23 0L11.5 8L23 16V0Z" fill="#fff"></path>
+                    </svg></button>
+                <button class="card__btn card__btn-play" id="playPause"><i class="fas fa-pause"></i></button>
+                <button class="card__btn" id="next"><svg width="23" height="16" viewBox="0 0 23 16" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.5 8V0L23 8L11.5 16V8ZM0 0L11.5 8L0 16V0Z" fill="#fff"></path>
+                    </svg></button>
+                <button class="card__btn card__btn-play" id="stop"><i class="fas fa-stop"></i></button>
+            </div>
+            <div style="display:flex;">
+                <p><i class="fas fa-music"></i> Auto Play : </p><button id="autoPlayToggle" style="border-radius:6px;">
+                    Enable</button>
+                <p style="height:32px;width:260px;margin-left:800px;font-size:16px;">Support me at &nbsp;&nbsp;&nbsp;
+                    <a href="https://www.linkedin.com/in/medam-kowsik-975479282/">
+                        <svg style="height:32px;width:32px;" fill="#fff" aria-label="LinkedIn" viewBox="0 0 512 512"
+                            id="linkedin">
+                            <rect width="512" height="512" fill="#0077b5" rx="15%"></rect>
+                            <circle cx="142" cy="138" r="37"></circle>
+                            <path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"></path>
+                            <path
+                                d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32">
+                            </path>
+                        </svg>
+                    </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://github.com/KOWSIK-M">
+                        <svg viewBox="0 0 16 16" id="github" style="height:32px;width:32px;fill:white">
+                            <path
+                                d="M7.999 0C3.582 0 0 3.596 0 8.032a8.031 8.031 0 0 0 5.472 7.621c.4.074.546-.174.546-.387 0-.191-.007-.696-.011-1.366-2.225.485-2.695-1.077-2.695-1.077-.363-.928-.888-1.175-.888-1.175-.727-.498.054-.488.054-.488.803.057 1.225.828 1.225.828.714 1.227 1.873.873 2.329.667.072-.519.279-.873.508-1.074-1.776-.203-3.644-.892-3.644-3.969 0-.877.312-1.594.824-2.156-.083-.203-.357-1.02.078-2.125 0 0 .672-.216 2.2.823a7.633 7.633 0 0 1 2.003-.27 7.65 7.65 0 0 1 2.003.271c1.527-1.039 2.198-.823 2.198-.823.436 1.106.162 1.922.08 2.125.513.562.822 1.279.822 2.156 0 3.085-1.87 3.764-3.652 3.963.287.248.543.738.543 1.487 0 1.074-.01 1.94-.01 2.203 0 .215.144.465.55.386A8.032 8.032 0 0 0 16 8.032C16 3.596 12.418 0 7.999 0z">
+                            </path>
+                        </svg>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let autoPlayEnabled = false;
+            let isLooping = false;
+            let isPaused = false;
+            let isPlaying = false;
+            let currentSongIndex = 0;
+
+            function updateSongName(name) {
+                document.querySelectorAll('#song-name').forEach(el => el.textContent = name);
+            }
+
+            function updatePlayPauseIcon() {
+                const icon = document.getElementById("playPause")?.querySelector("i");
+                if (icon) icon.className = isPaused ? "fas fa-play" : "fas fa-pause";
+            }
+
+            function bindSongListButtons() {
+                document.querySelectorAll('button[id^="playButton-"]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const songIndex = parseInt(button.id.replace('playButton-', ''), 10);
+                        currentSongIndex = songIndex;
+                        vscode.postMessage({ command: "play", index: songIndex });
+                        isPlaying = true;
+                        isPaused = false;
+                        updatePlayPauseIcon();
+                    });
+                });
+            }
+
+            window.addEventListener("message", event => {
+                const { command, progress, duration, songName } = event.data;
+
+                switch (command) {
+                    case 'updateProgress': {
+                        const progressBar = document.getElementById('progress-bar');
+                        const value = (progress / duration) * 100;
+                        progressBar.value = isFinite(value) ? value : 0;
+                        document.getElementById('progress-text').textContent =
+                            `${Math.floor(progress / 60)}:${(progress % 60).toString().padStart(2, '0')}`;
+                        document.getElementById('duration-text').textContent =
+                            `${Math.floor(duration / 60)}:${Math.round(duration % 60)}`;
+                        break;
+                    }
+                    case 'stop': {
+                        document.getElementById('progress-bar').value = 0;
+                        document.getElementById('progress-text').textContent = '0:00';
+                        document.getElementById('duration-text').textContent = '0:00';
+                        break;
+                    }
+                    case 'updateSongName': {
+                        updateSongName(songName);
+                        break;
+                    }
+                }
+            });
+
+            document.getElementById('autoPlayToggle')?.addEventListener('click', () => {
+                autoPlayEnabled = !autoPlayEnabled;
+                vscode.postMessage({ command: "toggleAutoPlay", enabled: autoPlayEnabled });
+                document.getElementById('autoPlayToggle').textContent = autoPlayEnabled ? 'Disable' : 'Enable';
+            });
+
+            document.getElementById('loopToggle')?.addEventListener('click', function () {
+                this.classList.toggle('active');
+                isLooping = !isLooping;
+                vscode.postMessage({ command: "toggleLoop", enabled: isLooping });
+            });
+
+            document.getElementById('stop')?.addEventListener('click', () => {
+                vscode.postMessage({ command: "stop" });
+                isPlaying = false;
+                isPaused = false;
+                updatePlayPauseIcon();
+            });
+
+            document.getElementById('prev')?.addEventListener('click', () => {
+                vscode.postMessage({ command: "prev" });
+            });
+
+            document.getElementById('next')?.addEventListener('click', () => {
+                vscode.postMessage({ command: "next" });
+            });
+
+            document.getElementById('playPause')?.addEventListener('click', () => {
+                if (!isPlaying || isPaused) {
+                    vscode.postMessage({ command: "resume" });
+                    isPaused = false;
+                } else {
+                    vscode.postMessage({ command: "pause" });
+                    isPaused = true;
+                }
+                updatePlayPauseIcon();
+            });
+
+            const progressBar = document.getElementById('progress-bar');
+            progressBar?.addEventListener('click', (event) => {
+                const rect = progressBar.getBoundingClientRect();
+                const clickX = event.clientX - rect.left;
+                const clickRatio = clickX / rect.width;
+                const seekTime = Math.floor(clickRatio * 100);
+                vscode.postMessage({ command: "seek", time: seekTime });
+            });
+
+            bindSongListButtons();
+        });
+    </script>
+
+</body>
+
+</html>

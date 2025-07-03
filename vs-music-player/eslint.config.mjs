@@ -22,4 +22,17 @@ export default [{
         "constructor-super": "warn",
         "valid-typeof": "warn",
     },
-}];
+},
+// ✅ Specific override for webview scripts
+{
+    files: ["media/**/*.js"],
+    languageOptions: {
+        ecmaVersion: 2022,
+        sourceType: "module",
+        globals: {
+            ...globals.browser,          // <--- enables 'document', 'window', etc.
+            acquireVsCodeApi: "readonly" // <--- custom VS Code API global
+        },
+    },
+},
+];
