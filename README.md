@@ -84,7 +84,7 @@ A VS Code extension that allows you to play your favorite songs directly within 
 
 ## **Preview**
 
-![VS Music Player Preview](\vs-music-player\preview.png)
+![VS Music Player Preview](/vs-music-player/preview.png)
 
 ## Installation
 
