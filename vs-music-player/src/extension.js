@@ -1,8 +1,10 @@
 const vscode = require("vscode");
 const audioPlayer = require("./audioPlayer");
 const state = require("./state");
-const { setupClickSound } = require("./clickSound");
+const { setupClickSound,teardownClickSound } = require("./clickSound");
 const { createWebviewPanel } = require("./panel");
+const { getExtentionConfig } = require("./config")
+
 
 function activate(context) {
   console.log('🎧 VS Music Player activated!');
@@ -11,7 +13,23 @@ function activate(context) {
 
   const ffplayExecutable = process.platform === "win32" ? "ffplay.exe" : "ffplay";
   const ffplayPath = require("path").join(context.extensionPath, "ffmpeg-bin", ffplayExecutable);
-  setupClickSound(context, ffplayPath);
+  let clickSoundEnabled  = getExtentionConfig().keyClickSoundEffect;
+  if (clickSoundEnabled) {
+    setupClickSound(context, ffplayPath);
+  }
+  vscode.workspace.onDidChangeConfiguration(event => {
+    if (event.affectsConfiguration('vs-music-player.keyClickSoundEffect')) {
+      const newVal = getExtentionConfig().keyClickSoundEffect;
+      console.log(newVal,clickSoundEnabled);
+      
+      if (newVal && !clickSoundEnabled) {
+        setupClickSound(context, ffplayPath);
+      } else if (!newVal && clickSoundEnabled) {
+        teardownClickSound();
+      }
+      clickSoundEnabled = newVal;
+    }
+  });
 
   const openPlayerCmd = vscode.commands.registerCommand(
     "vs-music-player.openMusicSelector",

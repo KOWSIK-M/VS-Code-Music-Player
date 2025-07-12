@@ -3,8 +3,20 @@
 All notable changes to the "vs-music-player" extension will be documented in this file.
 
 ---
+## [Version 0.2.1] - 2025-07-12
 
-## \[Version 0.1.8] - 2025-07-01
+### Added
+- **Click Sound Toggle Setting**:
+  - Added a new user setting `vs-music-player.keyClickSound` to control the click sound effect during text editing.
+  - Default value: `true`
+  - Description: "Enables or disables the click-sound effect when interacting with the music player."
+  - Users can modify this in their **Settings UI** or `settings.json`.
+
+---
+
+> 💡 This setting helps users mute or enable feedback sound without needing to reload the extension.
+
+## [Version 0.1.8] - 2025-07-01
 
 ### Added
 
