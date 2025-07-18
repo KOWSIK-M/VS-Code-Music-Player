@@ -3,6 +3,15 @@
 All notable changes to the "vs-music-player" extension will be documented in this file.
 
 ---
+## [Unreleased]
+
+### Added
+- Comprehensive unit tests have been implemented using Vitest to ensure the reliability and correctness of key modules and functionalities.
+
+### Improved
+- Added JSDoc docstrings to all test files (`test/*.js`) for enhanced readability and maintainability of the test suite.
+
+ ---
 ## [Version 0.2.1] - 2025-07-12
 
 ### Added

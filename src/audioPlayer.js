@@ -1,8 +1,8 @@
-const { spawn, execFile } = require("child_process");
-const path = require("path");
-const fs = require("fs");
-const vscode = require("vscode");
-const state = require("./state");
+import { spawn, execFile } from "child_process";
+import path from "path";
+import * as fs from "fs";
+import * as vscode from "vscode";
+import state from "./state.js";
 
 let ffmpegPath, ffplayPath, ffprobePath;
 
@@ -14,15 +14,13 @@ function initialize(context) {
   ffplayPath = path.join(binDir, isWin ? "ffplay.exe" : "ffplay");
   ffprobePath = path.join(binDir, isWin ? "ffprobe.exe" : "ffprobe");
 
-  console.log("ffmpegPath:", ffmpegPath);
-  console.log("ffplayPath:", ffplayPath);
-  console.log("ffprobePath:", ffprobePath);
 
-  [ffmpegPath, ffplayPath, ffprobePath].forEach(bin => {
-    if (!fs.existsSync(bin)) {
-      vscode.window.showErrorMessage(`Required binary not found: ${bin}`);
-    }
-  });
+  const missingBins = [ffmpegPath, ffplayPath, ffprobePath].filter(bin => !fs.existsSync(bin));
+
+  if (missingBins.length > 0) {
+    vscode.window.showErrorMessage(`Missing binaries: ${missingBins.join(", ")}`);
+    throw new Error(`Missing binaries: ${missingBins.join(", ")}`); 
+  }
 }
 
 function getAudioDuration(url, callback) {
@@ -150,7 +148,7 @@ function playPreviousSong(context) {
   playAudio(context, state.songQueue[state.currentSongIndex].url);
 }
 
-module.exports = {
+export {
   initialize,
   playAudio,
   pauseAudio,
@@ -158,4 +156,5 @@ module.exports = {
   stopAudio,
   playNextSong,
   playPreviousSong,
+  getAudioDuration,
 };
