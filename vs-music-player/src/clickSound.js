@@ -1,8 +1,11 @@
 const { exec } = require("child_process");
 const path = require("path");
+const vscode = require("vscode");
+
+let textChangeListener; 
 
 function setupClickSound(context, ffplayPath) {
-  const clickSoundPath = path.join(context.extensionPath,"media", "click.wav");
+  const clickSoundPath = path.join(context.extensionPath, "media", "click.wav");
 
   function playClick() {
     exec(`"${ffplayPath}" -nodisp -autoexit "${clickSoundPath}"`, (err) => {
@@ -10,9 +13,26 @@ function setupClickSound(context, ffplayPath) {
     });
   }
 
-  require("vscode").workspace.onDidChangeTextDocument(() => {
+
+  if (textChangeListener) {
+    textChangeListener.dispose();
+  }
+
+  textChangeListener = vscode.workspace.onDidChangeTextDocument(() => {
     playClick();
   });
+
+  context.subscriptions.push(textChangeListener);
 }
 
-module.exports = { setupClickSound };
+function teardownClickSound() {
+  if (textChangeListener) {
+    textChangeListener.dispose();
+    textChangeListener = null;
+  }
+}
+
+module.exports = {
+  setupClickSound,
+  teardownClickSound,
+};

@@ -36,7 +36,17 @@
         "command": "vs-music-player.openMusicSelector",
         "title": "Open Music Player"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "VS Music Player Settings",
+      "properties": {
+        "vs-music-player.keyClickSoundEffect": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables or disables the click sound effect when interacting with the music player."
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
