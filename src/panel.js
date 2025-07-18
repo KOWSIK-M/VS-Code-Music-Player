@@ -1,17 +1,17 @@
-const vscode = require("vscode");
-const fs = require("fs");
-const path = require("path");
-const state = require("./state");
-const {
+import * as vscode from "vscode";
+import * as fs from "fs";
+import * as path from "path";
+import state from "./state.js";
+import {
   playAudio,
   pauseAudio,
   resumeAudio,
   stopAudio,
   playNextSong,
   playPreviousSong,
-} = require("./audioPlayer");
+} from "./audioPlayer.js";
 
-function createWebviewPanel(context) {
+export function createWebviewPanel(context) {
   const backendUrl = "https://vs-music-songs-server.onrender.com/songs";
 
   state.panel = vscode.window.createWebviewPanel(
@@ -136,5 +136,3 @@ function setupWebviewListeners(context) {
     }
   });
 }
-
-module.exports = { createWebviewPanel };

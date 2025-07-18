@@ -1,6 +1,6 @@
-const vscode =require("vscode");
+import * as vscode from "vscode";
 
-function getExtentionConfig(){
+export function getExtentionConfig(){
     const config = vscode.workspace.getConfiguration("vs-music-player");
     
     return{
@@ -8,5 +8,3 @@ function getExtentionConfig(){
 
     }
 }
-
-module.exports = {getExtentionConfig}
