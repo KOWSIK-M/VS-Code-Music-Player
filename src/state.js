@@ -1,4 +1,4 @@
-module.exports = {
+const state = {
   musicProcess: null,
   playbackInterval: null,
   songDuration: 0,
@@ -10,3 +10,5 @@ module.exports = {
   isAutoPlayEnabled: false,
   isPaused: false,
 };
+
+export default state;

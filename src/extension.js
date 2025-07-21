@@ -1,10 +1,10 @@
-const vscode = require("vscode");
-const audioPlayer = require("./audioPlayer");
-const state = require("./state");
-const { setupClickSound,teardownClickSound } = require("./clickSound");
-const { createWebviewPanel } = require("./panel");
-const { getExtentionConfig } = require("./config")
-
+import * as vscode from "vscode";
+import * as audioPlayer from "./audioPlayer.js";
+import state from "./state.js";
+import { setupClickSound, teardownClickSound } from "./clickSound.js";
+import { createWebviewPanel } from "./panel.js";
+import { getExtentionConfig } from "./config.js";
+import path from "path";
 
 function activate(context) {
   console.log('🎧 VS Music Player activated!');
@@ -12,7 +12,7 @@ function activate(context) {
   audioPlayer.initialize(context);
 
   const ffplayExecutable = process.platform === "win32" ? "ffplay.exe" : "ffplay";
-  const ffplayPath = require("path").join(context.extensionPath, "ffmpeg-bin", ffplayExecutable);
+  const ffplayPath = path.join(context.extensionPath, "ffmpeg-bin", ffplayExecutable);
   let clickSoundEnabled  = getExtentionConfig().keyClickSoundEffect;
   if (clickSoundEnabled) {
     setupClickSound(context, ffplayPath);
@@ -44,4 +44,4 @@ function deactivate() {
   clearInterval(state.playbackInterval);
 }
 
-module.exports = { activate, deactivate };
+export { activate, deactivate };

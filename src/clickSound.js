@@ -1,10 +1,10 @@
-const { exec } = require("child_process");
-const path = require("path");
-const vscode = require("vscode");
+import { exec } from "child_process";
+import path from "path";
+import * as vscode from "vscode";
 
 let textChangeListener; 
 
-function setupClickSound(context, ffplayPath) {
+export function setupClickSound(context, ffplayPath) {
   const clickSoundPath = path.join(context.extensionPath, "media", "click.wav");
 
   function playClick() {
@@ -25,14 +25,9 @@ function setupClickSound(context, ffplayPath) {
   context.subscriptions.push(textChangeListener);
 }
 
-function teardownClickSound() {
+export function teardownClickSound() {
   if (textChangeListener) {
     textChangeListener.dispose();
     textChangeListener = null;
   }
 }
-
-module.exports = {
-  setupClickSound,
-  teardownClickSound,
-};
